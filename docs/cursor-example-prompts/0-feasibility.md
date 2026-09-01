@@ -1,6 +1,6 @@
 # Step 0: Check reprogram feasibility
 
-**In chat:** `@0-feasibility` LSC 3202087.2
+**In chat:** `@0-feasibility` model name or SKU or foldername
 
 **Optional:** sticker model, FCC ID, region, PCB or label photos
 
@@ -26,6 +26,8 @@ Research to resolve [to be verified] is allowed in this step.
 - Wrong-family tools (e.g. `esptool` on Beken): note once in blockers. Later steps trust this file
 - Reuse an existing device folder if present (e.g. `SAD00006D-ai-cam`, `3202087-lsc-plug`). Do not invent a second slug
 
+
+
 ## Deliverable
 
 Save in the repo:
@@ -41,8 +43,11 @@ File sections (use these `##` headings):
 - **Step 4: Reprogram paths:** only paths that match the chip family. Each: evidence, tool name, main risks. No pad names or port commands
 - **Step 5: Verdict:** device folder; reprogrammable (yes / probably / unknown / unlikely) and why; confirmed chip family, access type, dump/flash tool; open [to be verified] for connect; `@1-connect` if continuing
 
+
+
 ## Next
 
 - Run `@critical` on saved `0-feasibility.md` and any feasibility claims still only in chat
 - For each issue `@critical` reports: edit `0-feasibility.md` (wrong then fix or delete; hype then soften; no source then cite vendor docs or this repo, or mark [to be verified])
 - Verdict yes, probably, or unknown: `@1-connect`
+

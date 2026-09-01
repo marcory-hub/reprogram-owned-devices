@@ -1,6 +1,6 @@
 # Step 3: Decide what to build
 
-**In chat:** `@3-decide-changes` offline, no cloud
+**In chat:** `@3-decide-changes` model name or SKU or foldername - optional: ideas for new firmware
 
 **Prerequisite:** step 2 done. Folder from prior docs. No SKU re-ask.
 

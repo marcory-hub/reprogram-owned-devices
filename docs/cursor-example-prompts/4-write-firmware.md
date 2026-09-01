@@ -1,8 +1,8 @@
 # Step 4: Write and build custom firmware
 
-**In chat:** `@4-write-firmware` Morse SOS
+**In chat:** `@4-write-firmware` model name or SKU or foldername
 
-**Prerequisite:** step 3 done. Direction from `3-decide-changes.md`. Folder from prior docs.
+**Prerequisite:** step 3 done. Direction from `3-decide-changes.md`
 
 ## Goal
 

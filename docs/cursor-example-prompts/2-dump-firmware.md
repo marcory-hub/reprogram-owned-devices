@@ -1,6 +1,6 @@
 # Step 2: Pull factory firmware
 
-**In chat:** `@2-dump-firmware` `/dev/cu.usbserial-AG0KXO8J`
+**In chat:** `@2-dump-firmware` model name or SKU or foldername
 
 **Prerequisite:** steps 0-1 done. Link confirmed. Folder from `0-feasibility.md` or **In chat**.
 

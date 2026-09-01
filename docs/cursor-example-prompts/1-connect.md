@@ -1,12 +1,12 @@
 # Step 1: Connect the device
 
-**In chat:** `@1-connect` `3202087-lsc-plug`
+**In chat:** `@1-connect` model name or SKU or foldername
 
 **Prerequisite:** step 0 done. Folder from `0-feasibility.md` or **In chat**. No SKU re-ask.
 
 ## Goal
 
-A safe debug access path is documented: how to open the case (if needed), correct wiring or USB path, boot/flash entry for this chip family, and a checklist to confirm a working serial link. The user can see boot text, a ROM banner, or intentional stock output (not garbage or silence).
+A safe debug access path is documented: how to open the case (if needed), correct wiring or USB path, boot/flash entry for this chip family, and a checklist to confirm a working serial link, incl the cli (example `/dev/cu.usbserial-AG0KXO8J`). The user can see boot text, a ROM banner, or intentional stock output (not garbage or silence).
 
 ## Sources
 
@@ -14,6 +14,8 @@ A safe debug access path is documented: how to open the case (if needed), correc
 - Matching device docs in this repo under `docs/<modelnumber>-<short-name>/` (e.g. `mac-host-setup.md`, `sources.md`)
 - User: photos of their module, adapter, and wiring; port name after plug-in
 - External research only for [to be verified] gaps listed in `0-feasibility.md`. Do not redo feasibility from scratch
+
+
 
 ## Rules
 
@@ -28,13 +30,17 @@ A safe debug access path is documented: how to open the case (if needed), correc
 - Never write under `notes/`
 - Ask exactly one focused question only if blocked; otherwise proceed
 
+
+
 ## Deliverable
 
 Save `docs/<modelnumber>-<short-name>/1-connect.md` with:
 
 - **Step 1: Gaps only:** [to be verified] items still open from `0-feasibility.md`
 - **Step 2: Wiring and opening:** case opening; wiring table (pad or USB → adapter/host pin, logic voltage, boot/flash pin state); warnings for this chip family and device type (mains, capacitors, sealed cases)
-- **Step 3: Link verification:** port-list commands (macOS / Linux / Windows); baud and settings to try first; checklist (boot text vs garbage vs silence, TX/RX swap, boot pin retry, driver install); pitfalls before any dump
+- **Step 3: Link verification:** port-list commands (macOS / Linux / Windows); baud and settings to try first; checklist (boot text vs garbage vs silence, TX/RX swap, boot pin retry, driver install); pitfalls before any dumo
+
+
 
 ## Next
 

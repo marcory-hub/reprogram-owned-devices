@@ -1,6 +1,6 @@
 # Step 5: Flash custom firmware
 
-**In chat:** `@5-flash` `/dev/cu.wchusbserial1120`
+**In chat:** `@5-flash` model name or SKU or foldername
 
 **Prerequisite:** step 4 done. Artifact in `4-write-firmware.md`. Factory backup on disk, untouched.
 
