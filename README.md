@@ -28,6 +28,7 @@ It speeds up
 - .bin, so not human-readable
 - but you can rewrite the firmware in C and C++
 - compile it and flash it
+
 ![](docs/images/emoji/brain.svg)
 
 ---
@@ -142,8 +143,6 @@ It speeds up
 ![Elecrow AI Camera confidence threshold selection on the LCD](docs/SAD00006D-ai-cam/images/IMG_4111.png)
 
 ![Elecrow AI Camera detecting a hornet offline with bounding box and confidence score](docs/SAD00006D-ai-cam/images/IMG_4130.png)
-
-![](docs/images/emoji/bee.svg)
 
 ---
 
