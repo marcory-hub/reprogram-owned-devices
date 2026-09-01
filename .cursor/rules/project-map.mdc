@@ -1,0 +1,52 @@
+---
+description: Project map: goal, acceptance, stack, invariants, paths for reprogram-owned-devices.
+alwaysApply: true
+---
+
+# Project map
+
+Demo orientation only. Device facts and procedures live under `docs/<device>/`. Chat style: `interaction-style`. Provenance: `anti-hallucination-verification.mdc`.
+
+## Goal
+
+- **Name:** reprogram-owned-devices
+- **Mission:** Cursor demo. Firmware on hardware you own is a normal codebase: connect → dump → decide → write firmware → flash. No vendor cloud account for the story.
+- **In scope:** `README.md`, `docs/cursor-example-prompts/` (steps 0-5), two README examples (USB-C camera vs soldered UART plug), factory backup and local replacement firmware for those examples.
+- **Out of scope:** devices not on the README; cloud inference, Xiaozhi, vendor online recognition; model training, datasets, notebooks, host export tooling; operator hardware, ESP-IDF, `.venv/` (not in git).
+
+## Goal wins
+
+If Stack, Paths, or docs conflict with Goal or ranked Acceptance, change the other content. Do not grow the repo past the demo story.
+
+## Acceptance
+
+Ranked. Higher beats lower when they conflict.
+
+1. Attendee follows README + example prompts through the five Cursor steps and sees reprogramming on owned hardware.
+2. Replacement firmware runs locally (no Wi-Fi, Bluetooth, or cloud APIs on the demo path).
+3. Before any flash, factory firmware is secured for every device (default: read from hardware; alt: locate a published stock image online if a pull is impractical).
+4. Two examples stay honest: camera is USB-C / no soldering; LSC plug needs UART soldering and **ltchiptool** (not `esptool`) for Beken read/write.
+
+## Stack
+
+- **Demo:** `README.md`, `docs/cursor-example-prompts/`, `docs/images/`
+- **Camera (SAD00006D):** `docs/SAD00006D-ai-cam/`, `firmware/SAD00006D-ai-cam/`
+- **Plug (3202087-lsc-plug):** `docs/3202087-lsc-plug/`, `firmware/3202087-lsc-plug/` (`backup.sh`, `requirements/ltchiptool.txt`)
+- **Host:** macOS. Devices and adapters never in git.
+
+## Invariants
+
+- Device folders: `<modelnumber>-<short-name>` (lowercase, hyphenated; brand when helpful). One `docs/` + `firmware/` pair per device.
+- One root `README.md` only. Operator detail under `docs/<device>/`.
+
+## Paths
+
+| Path | Agent write? |
+| :--- | :--- |
+| `README.md`, `docs/` (incl. `docs/CONTEXT.md`), `firmware/<device>/`, `temp/`, `requirements/` | writable |
+| `notes/`, `.venv/` | never |
+
+## Don't
+
+- Full third demo device (custom firmware on README) unless the README story changes.
+- Push to github

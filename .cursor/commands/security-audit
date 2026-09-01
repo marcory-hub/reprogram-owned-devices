@@ -1,0 +1,158 @@
+# Security audit
+
+Invoke with `@security-audit`. Run the checks. Report pass or fail. This is a leak-and-hygiene gate before `git push`, not a pentest or `@review-security` (code review subagent). Skip any step whose files or tools are missing, and say what you skipped.
+
+Project map: `.cursor/rules/project-map.mdc`.
+
+**Dual goal:** block secrets and scratch paths; **do not** block or omit firmware assets the repo is meant to ship (`.bin`, `.espdl`, `.rar` under `firmware/`).
+
+## 1. What would go to GitHub
+
+```sh
+git status -sb
+git diff --cached --name-only
+git rev-parse --abbrev-ref @{u} 2>/dev/null || true
+```
+
+If upstream exists:
+
+```sh
+git log --oneline @{u}..HEAD
+git diff --name-only @{u}..HEAD
+```
+
+If there is no upstream, treat **all local commits not on origin** as the push set (`git log --oneline origin/HEAD..HEAD` when `origin` exists). If that also fails, scan the working tree and index only, and say the history window is unknown.
+
+## 2. Paths that must not be in git
+
+Fail if any of these are **tracked** (`git ls-files`) or **staged**.
+
+- `notes/` (Obsidian vault; read-only for agents)
+- `temp/` (scratch)
+- `teaching/` (local teaching workspace)
+- `.venv/`
+- `.cursor/skills/handoff/sessions/`
+- `.cursor/plans/`
+- `.env`, `.env.*` except `.env.example`
+- `credentials*.md`, `credentials.json`, `secrets.*`
+- `*.pem`, `*.p12`, `*.key`, `id_rsa`, `id_ed25519`
+- `otp.bin` (Tuya key-tool output; not a factory flash image)
+
+**Not forbidden:** product firmware under `firmware/`, including `*.bin`, `*.espdl`, `*.rar`, plug `factory-*.bin`, and `uart-debug/uart-capture/`. These are intentional repo artifacts for backup, restore, models, and UART bring-up docs.
+
+## 3. Firmware assets that belong in GitHub
+
+When this repo ships plug backup, camera stock images, or bundled models, those blobs **should** be tracked and included in the push set.
+
+**Expected trees** (from `project-map.mdc`):
+
+| Path | Role |
+| :--- | :--- |
+| `firmware/SAD00006D-ai-cam/factory-firmware/**` | Stock Elecrow `.bin`, vendor `.rar`, flash guide images |
+| `firmware/SAD00006D-ai-cam/yolo11n-detect/components/vespa_detect/models/s3/*.espdl` | Bundled INT8 models |
+| `firmware/3202087-lsc-plug/factory-*.bin` | Plug rollback dumps (2 MiB) |
+| `firmware/3202087-lsc-plug/backup.sh` | Plug read-only backup helper |
+| `firmware/3202087-lsc-plug/uart-debug/**` | UART scripts, reports, `uart-capture/*.bin` and `.txt` |
+
+**Completeness check:** untracked product blobs under `firmware/` (exclude ESP-IDF `build/` and already-tracked `managed_components/`):
+
+```sh
+git ls-files --others --exclude-standard firmware/ \
+  | rg '\.(bin|espdl|rar)$' \
+  | rg -v 'managed_components|/build/' || true
+```
+
+- If the list is non-empty: **fail** with *Untracked firmware assets. Stage with `git add` if they belong in this release.*
+- List each path so the operator can add them before push.
+
+**Docs/scripts without matching blobs:** if the push set touches plug backup or UART docs but no plug factory dump is tracked:
+
+```sh
+git diff --name-only @{u}..HEAD -- \
+  'docs/3202087-lsc-plug/factory-backup.md' \
+  'docs/3202087-lsc-plug/factory-firmware-pull.md' \
+  'firmware/3202087-lsc-plug/backup.sh' \
+  'firmware/3202087-lsc-plug/uart-debug/**' 2>/dev/null || true
+```
+
+When that output is non-empty, also run:
+
+```sh
+git ls-files 'firmware/3202087-lsc-plug/factory-*.bin' 'firmware/3202087-lsc-plug/uart-debug/uart-capture/*'
+```
+
+Fail if docs/scripts changed in the push set but the matching `factory-*.bin` or `uart-capture/` files are still untracked (use the completeness list above).
+
+**Camera models:** if the push set changes `vespa_detect` or model picker code/docs, fail when any `models/s3/*.espdl` referenced in tree is untracked.
+
+Do **not** fail merely because a `.bin` or `.espdl` is large or contains encrypted vendor data. Stock dumps may include Tuya partitions; that is expected for rollback images documented in `docs/3202087-lsc-plug/`.
+
+## 4. Secret content (text only)
+
+Scan **text** in the working tree. Skip binaries and third-party trees (product `.bin` / `.espdl` / `.rar` are not scanned here):
+
+```sh
+rg -i \
+  --glob '!notes/**' \
+  --glob '!temp/**' \
+  --glob '!teaching/**' \
+  --glob '!.venv/**' \
+  --glob '!node_modules/**' \
+  --glob '!firmware/**/managed_components/**' \
+  --glob '!firmware/**/factory-firmware/**' \
+  --glob '!firmware/**/*.bin' \
+  --glob '!firmware/**/*.espdl' \
+  --glob '!firmware/**/*.rar' \
+  --glob '!**/*.pdf' \
+  'BEGIN ([A-Z0-9]+ )?PRIVATE KEY|api[_-]?key\s*=|password\s*=|ghp_[A-Za-z0-9]|github_pat_|xox[baprs]-|AKIA[0-9A-Z]{16}|sk_live_|AIza[0-9A-Za-z_-]+' .
+```
+
+If upstream exists, also scan the unpushed text patch:
+
+```sh
+git diff @{u}..HEAD -- . ':!notes' ':!temp' ':!teaching' ':!.venv' ':!node_modules' \
+  ':!firmware/**/managed_components/**' ':!firmware/**/factory-firmware/**' \
+  ':!firmware/**/*.bin' ':!firmware/**/*.espdl' ':!firmware/**/*.rar' ':!**/*.pdf' \
+  | rg -i 'BEGIN ([A-Z0-9]+ )?PRIVATE KEY|api[_-]?key\s*=|password\s*=|ghp_[A-Za-z0-9]|github_pat_|xox[baprs]-|AKIA[0-9A-Z]{16}|sk_live_|AIza[0-9A-Za-z_-]+'
+```
+
+If `notes/` exists and this push publishes the parent repo, also:
+
+```sh
+rg 'token=|sig=|SAS' notes/
+```
+
+If `gitleaks` or `trufflehog` is on PATH, run on the push set but **exclude** `firmware/**/*.bin`, `firmware/**/*.espdl`, `firmware/**/*.rar`. Do not install either for this command.
+
+Hits in docs or examples: judge context. Fail on live-looking credentials. Example serial paths like `/dev/cu.usbserial-AG0KXO8J` in `docs/3202087-lsc-plug/factory-backup.md` are session placeholders; fail only when paired with real secrets.
+
+## 5. Dependency audit
+
+Python only for this repo.
+
+- `.venv/` exists and `requirements/ltchiptool.txt` is present: run `.venv/bin/pip-audit -r requirements/ltchiptool.txt`. Skip if no venv or `pip-audit` is missing (say skipped).
+- No `package-lock.json`; skip Node audit.
+- ESP-IDF and camera build deps are operator-installed outside git; skip unless a lockfile and matching audit CLI are already on PATH.
+
+Critical findings: fail, or record an explicit accepted exception.
+
+## 6. Project policy (no extra shell unless asked)
+
+- **Must stay out of git:** `notes/`, `temp/`, `teaching/`, `.venv/`, handoff `sessions/`, `.cursor/plans/`, env files, key material, `otp.bin`.
+- **Must go to GitHub when part of this release:** firmware blobs under the table in section 3 (`.bin`, `.espdl`, `.rar`), including plug dumps and UART captures tied to docs/scripts in the push set.
+- **Submodule path to inspect when staged:** none (no submodules).
+- **Local servers must bind `127.0.0.1`, not `0.0.0.0`:** N/A today (no in-repo servers).
+- **Live secrets that stay out of git (names only):** operator `.env`; extracted Tuya keys from `otp.bin` workflows; personal cloud API tokens not needed for the offline camera path.
+
+## Pass / fail
+
+| Fail | Action |
+| :--- | :--- |
+| Forbidden path tracked or staged | Stop; do not push |
+| Untracked `firmware/` `.bin` / `.espdl` / `.rar` (section 3) | Stage assets; then re-audit |
+| Docs/scripts changed without matching tracked blobs | Stage missing blobs; then re-audit |
+| Secret-like value in text tree or unpushed diff | Stop; do not push |
+| `notes/` token/SAS hit when publishing | Stop |
+| Critical dep audit, no accepted exception | Stop |
+
+On **pass**, state: *Security audit passed this session.* Confirm whether firmware blobs in the push set were included or none were pending. This does not prove GitHub org settings or full history are clean.

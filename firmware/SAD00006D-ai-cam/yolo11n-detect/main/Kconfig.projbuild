@@ -1,0 +1,111 @@
+menu "Board: SD detection saves"
+
+    config BOARD_SD_SAVE_ENABLE
+        bool "Enable SD card detection JPEG saves"
+        default y
+        help
+            Mount SD at boot and save full-frame JPEGs on qualifying detections.
+
+    config BOARD_SD_CS_GPIO
+        int "SD SPI chip-select GPIO (-1 = none, Elecrow factory)"
+        default -1
+        depends on BOARD_SD_SAVE_ENABLE
+        help
+            Elecrow factory firmware uses GPIO_NUM_NC (-1). Set explicitly if your board needs CS.
+
+    config BOARD_SD_SAVE_COOLDOWN_MS
+        int "Global save cooldown (milliseconds)"
+        default 60000
+        depends on BOARD_SD_SAVE_ENABLE
+
+    config BOARD_SD_JPEG_QUALITY
+        int "JPEG quality for saved frames (0-63, lower is better)"
+        default 12
+        depends on BOARD_SD_SAVE_ENABLE
+        range 4 63
+
+endmenu
+
+menu "Board: display power"
+
+    config BOARD_DISPLAY_AUTO_OFF_MS
+        int "Display auto-off timeout (ms, 0 = disabled)"
+        default 60000
+        help
+            Turn display off after this idle period. Manual ON resets the timer.
+
+    config BOARD_DISPLAY_PANEL_SLEEP
+        bool "ST7789 panel sleep when display off"
+        default y
+        help
+            Also send ST7789 sleep command when display turns off.
+
+    config BOARD_DISPLAY_USB_PAUSE_AUTO_OFF
+        bool "Pause display auto-off while USB/host connected"
+        default n
+        help
+            Leave disabled when the board stays USB-powered (PC or powerbank).
+
+    choice BOARD_DISPLAY_USB_SENSE_MODE
+        prompt "USB/host sense method"
+        default BOARD_DISPLAY_USB_SENSE_DISABLED
+        depends on BOARD_DISPLAY_USB_PAUSE_AUTO_OFF
+
+        config BOARD_DISPLAY_USB_SENSE_GPIO
+            bool "GPIO (CONFIG_BOARD_DISPLAY_USB_SENSE_GPIO_NUM)"
+
+        config BOARD_DISPLAY_USB_SENSE_UART_HOST
+            bool "UART0 RX activity (host serial session)"
+
+        config BOARD_DISPLAY_USB_SENSE_DISABLED
+            bool "Disabled (always count down)"
+    endchoice
+
+    config BOARD_DISPLAY_USB_SENSE_GPIO_NUM
+        int "USB sense GPIO (-1 = unused)"
+        default -1
+        depends on BOARD_DISPLAY_USB_SENSE_GPIO
+        help
+            Active high when USB/external 5V present. Set after schematic probe.
+
+    config BOARD_DISPLAY_USB_UART_RX_IDLE_MS
+        int "UART host idle timeout (ms)"
+        default 30000
+        depends on BOARD_DISPLAY_USB_SENSE_UART_HOST
+        help
+            Treat host as connected if UART0 RX saw data within this window.
+
+endmenu
+
+menu "Pipeline performance"
+
+    config PIPELINE_SKIP_LETTERBOX
+        bool "Skip ESP-DL letterbox (input already at infer size)"
+        default y
+        help
+            Camera crop already produces BOARD_CAM_INFER_W x H BGR888
+            (224x224 or 256x192). Skipping letterbox removes redundant
+            preprocess work in ESP-DL.
+
+    config PIPELINE_SCORE_THR_X100
+        int "Detection score threshold x100 (25 = 0.25)"
+        default 25
+        range 1 99
+
+    config PIPELINE_NMS_THR_X100
+        int "NMS threshold x100 (70 = 0.70)"
+        default 70
+        range 1 99
+
+    config PIPELINE_SAVE_SCORE_THR_X100
+        int "SD save minimum score x100 (20 = 0.20)"
+        default 20
+        range 1 99
+        depends on BOARD_SD_SAVE_ENABLE
+
+    config PIPELINE_FAIL_THRESHOLD
+        int "Consecutive frame failures before safe delay (ms backoff)"
+        default 10
+        range 1 100
+
+endmenu

@@ -1,0 +1,71 @@
+menu "models: vespa_detect"
+    config FLASH_VESPA_DETECT_YOLO11N_S8_V1
+        bool "flash yolo11n_vespa_2026-05_top.espdl"
+        depends on !VESPA_DETECT_MODEL_IN_SDCARD
+        default y
+        help
+            Bundled under components/vespa_detect/models/s3/.
+    config FLASH_VESPA_DETECT_ESPDET_PICO_VVEL_192x256
+        bool "flash espdet_vespa_top_vvel_vcra_192x256.espdl"
+        depends on !VESPA_DETECT_MODEL_IN_SDCARD
+        default n
+        help
+            ESPDet-Pico INT8 @ 192x256 (H x W), classes 0=vvel 1=vcra.
+            Bundled under components/vespa_detect/models/s3/.
+    config FLASH_VESPA_DETECT_ESPDET_PICO_VVEL_ONLY_192x256
+        bool "flash espdet_vespa_top_vvel_192x256.espdl"
+        depends on !VESPA_DETECT_MODEL_IN_SDCARD
+        default n
+        help
+            ESPDet-Pico INT8 @ 192x256 (H x W), class 0=vvel only.
+            Bundled under components/vespa_detect/models/s3/.
+
+    choice
+        prompt "default model"
+        default VESPA_DETECT_YOLO11N_S8_V1
+        help
+            default vespa_detect model (boot picker may override at runtime)
+        config VESPA_DETECT_YOLO11N_S8_V1
+            bool "yolo11n_vespa_2026-05_top.espdl"
+            depends on VESPA_DETECT_MODEL_IN_SDCARD || FLASH_VESPA_DETECT_YOLO11N_S8_V1
+        config VESPA_DETECT_ESPDET_PICO_VVEL_192x256
+            bool "espdet_vespa_top_vvel_vcra_192x256.espdl"
+            depends on VESPA_DETECT_MODEL_IN_SDCARD || FLASH_VESPA_DETECT_ESPDET_PICO_VVEL_192x256
+        config VESPA_DETECT_ESPDET_PICO_VVEL_ONLY_192x256
+            bool "espdet_vespa_top_vvel_192x256.espdl"
+            depends on VESPA_DETECT_MODEL_IN_SDCARD || FLASH_VESPA_DETECT_ESPDET_PICO_VVEL_ONLY_192x256
+    endchoice
+
+    config DEFAULT_VESPA_DETECT_MODEL
+        int
+        default 0 if VESPA_DETECT_YOLO11N_S8_V1
+        default 2 if VESPA_DETECT_ESPDET_PICO_VVEL_192x256
+        default 3 if VESPA_DETECT_ESPDET_PICO_VVEL_ONLY_192x256
+
+    choice
+        prompt "model location"
+        default VESPA_DETECT_MODEL_IN_FLASH_RODATA
+        help
+            vespa_detect model location
+        config VESPA_DETECT_MODEL_IN_FLASH_RODATA
+            bool "flash_rodata"
+        config VESPA_DETECT_MODEL_IN_FLASH_PARTITION
+            bool "flash_partition"
+        config VESPA_DETECT_MODEL_IN_SDCARD
+            bool "sdcard"
+    endchoice
+
+    config VESPA_DETECT_MODEL_LOCATION
+        int
+        default 0 if VESPA_DETECT_MODEL_IN_FLASH_RODATA
+        default 1 if VESPA_DETECT_MODEL_IN_FLASH_PARTITION
+        default 2 if VESPA_DETECT_MODEL_IN_SDCARD
+
+    config VESPA_DETECT_MODEL_SDCARD_DIR
+        string "vespa_detect model sdcard dir"
+        default "models/s3" if IDF_TARGET_ESP32S3
+        default "models/p4" if IDF_TARGET_ESP32P4
+        depends on VESPA_DETECT_MODEL_IN_SDCARD
+        help
+            Directory of models relative to sdcard mount point.
+endmenu

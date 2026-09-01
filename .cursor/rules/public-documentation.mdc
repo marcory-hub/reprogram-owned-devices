@@ -1,0 +1,115 @@
+---
+description: Use when writing README.md, docs, or when the user asks for documentation, instructions, a paper, or no-AI fluff. Layer on interaction-style.
+globs: README.md,docs/**
+alwaysApply: false
+---
+
+# Public documentation
+
+**Layer on** `interaction-style.mdc` (chat AI-voice bans still apply to page text; do not restate them here).
+
+**When:** globs `README.md`, `docs/**`. Documentation, instructions, papers, or no-AI fluff on other paths: only if the user asks or attaches this rule.
+
+**While editing:** keep chat short. Do not paste the whole draft into chat. Do not narrate the checklist. Prefer minimal diffs; rewrite a section only when it is mostly AI-slop.
+
+**Default reader:** a curious non-expert (neighbour, journalist, funder, new contributor). Write so they can picture the work. Insider detail belongs later or in linked technical docs.
+
+## Choosing a subject
+
+- **Audience first:** who reads this, and why now? Would an outsider keep reading after paragraph 2?
+- One hard idea per piece, not the whole stack.
+- Prefer a concrete scene or news hook over an insider-only story.
+- Connect to daily life before theory. Do not explain the entire field in one short piece.
+- Simplify; never distort or invent results.
+
+## Genre: README (root)
+
+Goal: in one screen, a stranger knows what this is, why it exists, and what to do next.
+
+Typical order (cut sections you do not need):
+
+1. **Name + one-sentence pitch** (what it does in plain words).
+2. **Why it matters** (everyday picture, not a tech stack list).
+3. **What you need** (hardware / OS / accounts) only if required to start.
+4. **Quick start** (shortest path to a first success; copy-pasteable commands).
+5. **What you get** (outputs, screenshots, or one honest figure).
+6. **Limits** (what it does not do yet; no apology theatre).
+7. **Learn more** (links to deeper docs). Optional: cite, license, credit.
+
+README rules:
+
+- Factual tone. No fake opinions, no marketing superlatives.
+- One root `README.md` only.
+- Commands in fenced blocks; no `#` comment noise unless the shell needs it.
+- Do not dump the full architecture, every flag, or the changelog into the README.
+- Link out for install variants, API, and design notes.
+
+## Genre: paper or article for the general public
+
+Goal: one hard idea, fascinate first, leave the reader with a clear takeaway.
+
+- **Reject the hourglass:** no long literature or "field of AI" opener.
+- **Shape:** catch phrase → easy middle → clear end. Opening must fascinate before it explains.
+- Answer who / what / where / when / why early (how if needed).
+- Middle: one idea per short block. Gould order: accessible blocks before harder ones. Breathing room (scene, photo, short anecdote).
+- End with closure; may echo the opening. Never "the future looks bright."
+- Stance is allowed when the genre is an essay or explainer. Still: no invented facts.
+- Put methods detail, equations, and full tables in a box, footnote, or linked technical note if they would stop a general reader.
+
+## Structure (both genres)
+
+- Inverted pyramid for newsy or README tops: main point first, then detail.
+- Weak openers: abstract definitions, roadmap dumps, "X is a field of AI that…".
+- Sentence-case headings. No decorative emojis.
+- Do not mention dropped legacy designs unless the user asks for history.
+
+## Writing craft
+
+- **Coloring page first:** outline themes/blocks and a rough word budget before sentences. Expect heavy cutting.
+- **Dropouts:** anything that makes a tired reader stop. Cut or rewrite.
+- **Rhythm:** vary sentence length; after each sentence ask what the reader wants next.
+- **Juicy words:** strong word at sentence end; avoid tangled word order.
+- **Litmus:** read aloud later; stumble = rewrite. If a non-expert does not get it, the text failed.
+- **Five rules:** (1) active voice; (2) cut filler and dated words; (3) split stacked prepositions; (4) keep verb parts together; (5) prefer verbs over nominalizations.
+- **Concrete or cut.** Instruction, fact, number, or named source. Else delete.
+
+## Metaphors
+
+- Bridge abstract → everyday when the idea is far from daily life or invisible on screen.
+- Skip the metaphor if explaining it takes longer than the concept.
+- Match the audience's world, not insider jokes. Invent only after you understand the process.
+- One strong image can carry a paragraph. Add project-specific bridges when you copy this rule into a real project.
+
+## Word choice
+
+- Assume less jargon than you think. Explain on first use; drop the term if a plain word works.
+- One wrong technical word can derail outsiders; prefer plain language for public text.
+- Do not talk down ("everyone knows…") or freeze the reader ("only experts…").
+- Watch words that mean one thing to insiders and another to outsiders (or across languages you publish in). Add project examples when you copy this rule.
+- Numbers and formulas only if they earn space; say what they mean for the reader.
+- Precision matches audience. Never fake data.
+
+## Doc-only AI tells
+
+Chat AI-voice bans live in `interaction-style.mdc` and apply to page text. Extra for documents:
+
+- Inflation / promo: evolving landscape, nestled, groundbreaking, stunning. State what happened.
+- Cut or prove -ing tails: highlighting, ensuring, reflecting, showcasing, fostering.
+- Fake authority: name the source or delete. No outlet list without the claim.
+- No "Despite challenges… thrives." No false "from X to Y" ranges. One name per thing; natural item counts.
+- Inline-header tell: wrong "**Performance:** Performance improved…"; right "**Schema in TypeScript.** Tables live in one file."
+- Delete "It is important to note that."
+
+## Figures
+
+Images sell the story: real setup / evidence over stock. Credit and respect copyright. Decide what the number means, then draw. One clear message per figure. Prefer counts over bare %. Default to line or bar; teach scatter carefully. Label axes; start at zero when comparing magnitude; never truncate the y-axis to hype. Remove misleading software defaults. Avoid dual axes by default. In a README, one honest figure beats a collage.
+
+## Before handoff (silent self-check)
+
+**README:** pitch in one sentence? stranger can start? limits honest? no architecture dump?
+
+**Public paper:** ¶1 curiosity (not background)? 5 w's early? one idea? accessible before hard? clear ending?
+
+**Both:** dropouts? jargon once? metaphors help? active + juicy endings? AI tells clean? graphs honest? facts from project sources or named references?
+
+Fix in the file. Do not write this checklist into chat.

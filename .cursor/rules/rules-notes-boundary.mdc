@@ -1,0 +1,26 @@
+---
+description: Boundary between rules, skills, and design notes; keeps rules short.
+alwaysApply: true
+---
+
+# Rules vs notes (scope and hygiene)
+
+## Boundary
+
+- **Rules (`.mdc`):** Stable how: process, triggers, safety, invariants.
+- **Skills (`SKILL.md`):** On-demand workflows the user invokes.
+- **Design / facts:** What we are building. Paths and write flags live in `project-map.mdc`. The `notes/` write ban lives in `anti-hallucination-verification.mdc`.
+- **Staging:** Experiment space named in that Paths table. Keep out of generation.
+
+## When to add a rule or skill
+
+- Only when the user asks.
+- Link design and schema paths. Do not paste large tables into rules.
+
+## Hygiene
+
+- One concern per rule file. Under ~50 lines when possible.
+- No duplication across rules or skills. Link sibling paths.
+- Facts and draft designs stay in design or canonical data files; rules hold behavior only.
+- Durable agent output goes in `docs/` (incl. `docs/CONTEXT.md`) per project map. New scratch or audit files only when the user asks.
+- File and knowledge ids: human-readable; name for **why** (role) and **how** (use).

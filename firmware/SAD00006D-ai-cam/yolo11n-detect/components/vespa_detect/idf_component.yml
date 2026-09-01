@@ -1,0 +1,5 @@
+version: "0.4.0"
+description: Vespa YOLO11n detect (4 classes @ 224) for SAD00006D
+dependencies:
+  espressif/esp-dl:
+    version: "~3.3.0"

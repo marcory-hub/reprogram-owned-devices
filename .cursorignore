@@ -1,0 +1,19 @@
+# notes
+notes/*
+!notes/
+!notes/**
+
+# handoff sessions
+.cursor/skills/handoff/sessions/*
+!.cursor/skills/handoff/sessions/
+!.cursor/skills/handoff/sessions/**
+
+# cursor plans
+.cursor/plans/*
+!.cursor/plans/
+!.cursor/plans/**
+
+# teaching (gitignored workspace; agent Read)
+teaching/*
+!teaching/
+!teaching/**

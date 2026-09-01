@@ -1,0 +1,17 @@
+---
+description: Python for this repo runs in the project venv, not system pip.
+globs: "**/*.py,requirements/**"
+alwaysApply: false
+---
+
+# Python environment
+
+Host: macOS. Prefer Homebrew Python to create `.venv`. If brew is missing, fall back to `python3` / `pip3` on PATH for that create step only.
+
+Invariant: after the venv exists, all install, run, and test commands use it. Do not install project packages with system `pip` or `pip3`.
+
+Default venv path is `.venv/` (`bin/python`, `bin/pip`). Invoke with `source .venv/bin/activate` or `.venv/bin/python` directly.
+
+Dependencies exist only in files under `requirements/`. Add a package by editing those files, then install with the venv pip. Do not ad hoc install.
+
+Project Python lives under `firmware/` (e.g. `firmware/3202087-lsc-plug/uart-debug/`). There is no `scripts/` tree. Do not edit files under `managed_components/`.

@@ -1,0 +1,39 @@
+# OS
+.DS_Store
+Thumbs.db
+._*
+
+# Secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*credentials*
+*secret*
+
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Editor
+.idea/
+.vscode/
+*.swp
+*.swo
+.history/
+
+# Local vault and scratch
+notes/
+temp/
+
+# Session snapshots (skill + format stay tracked)
+.cursor/skills/handoff/sessions/
+.cursor/plans/
+
+# Local teaching workspace
+teaching/

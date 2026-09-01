@@ -1,0 +1,13 @@
+# Target labels
+ bootloader
+# Source files and their labels
+/Users/md5/Developer/reprogram-owned-devices/firmware/SAD00006D-ai-cam/yolo11n-detect/build/CMakeFiles/bootloader
+/Users/md5/Developer/reprogram-owned-devices/firmware/SAD00006D-ai-cam/yolo11n-detect/build/CMakeFiles/bootloader.rule
+/Users/md5/Developer/reprogram-owned-devices/firmware/SAD00006D-ai-cam/yolo11n-detect/build/CMakeFiles/bootloader-complete.rule
+/Users/md5/Developer/reprogram-owned-devices/firmware/SAD00006D-ai-cam/yolo11n-detect/build/bootloader-prefix/src/bootloader-stamp/bootloader-build.rule
+/Users/md5/Developer/reprogram-owned-devices/firmware/SAD00006D-ai-cam/yolo11n-detect/build/bootloader-prefix/src/bootloader-stamp/bootloader-configure.rule
+/Users/md5/Developer/reprogram-owned-devices/firmware/SAD00006D-ai-cam/yolo11n-detect/build/bootloader-prefix/src/bootloader-stamp/bootloader-download.rule
+/Users/md5/Developer/reprogram-owned-devices/firmware/SAD00006D-ai-cam/yolo11n-detect/build/bootloader-prefix/src/bootloader-stamp/bootloader-install.rule
+/Users/md5/Developer/reprogram-owned-devices/firmware/SAD00006D-ai-cam/yolo11n-detect/build/bootloader-prefix/src/bootloader-stamp/bootloader-mkdir.rule
+/Users/md5/Developer/reprogram-owned-devices/firmware/SAD00006D-ai-cam/yolo11n-detect/build/bootloader-prefix/src/bootloader-stamp/bootloader-patch.rule
+/Users/md5/Developer/reprogram-owned-devices/firmware/SAD00006D-ai-cam/yolo11n-detect/build/bootloader-prefix/src/bootloader-stamp/bootloader-update.rule
