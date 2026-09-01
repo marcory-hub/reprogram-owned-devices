@@ -615,7 +615,7 @@ C_COMPILER_SUPPORTS_WFORMAT_SIGNEDNESS:INTERNAL=1
 //Details about finding Git
 FIND_PACKAGE_MESSAGE_DETAILS_Git:INTERNAL=[/opt/homebrew/bin/git][v2.55.0()]
 //Details about finding Python3
-FIND_PACKAGE_MESSAGE_DETAILS_Python3:INTERNAL=[/Users/md5/.espressif/python_env/idf5.5_py3.14_env/bin/python][found components: Interpreter ][v3.14.6()]
+FIND_PACKAGE_MESSAGE_DETAILS_Python3:INTERNAL=[/Users/md5/.espressif/python_env/idf5.5_py3.14_env/bin/python][found components: Interpreter ][v3.14.7()]
 //Details about finding Threads
 FIND_PACKAGE_MESSAGE_DETAILS_Threads:INTERNAL=[TRUE][v()]
 //ADVANCED property for variable: GIT_EXECUTABLE
@@ -628,7 +628,7 @@ _Python3_Compiler_REASON_FAILURE:INTERNAL=
 _Python3_Development_REASON_FAILURE:INTERNAL=
 _Python3_EXECUTABLE:INTERNAL=/Users/md5/.espressif/python_env/idf5.5_py3.14_env/bin/python
 //Python3 Properties
-_Python3_INTERPRETER_PROPERTIES:INTERNAL=Python;3;14;6;32;64;<none>;;abi3;/opt/homebrew/opt/python@3.14/Frameworks/Python.framework/Versions/3.14/lib/python3.14;/Users/md5/.espressif/python_env/idf5.5_py3.14_env/lib/python3.14;/Users/md5/.espressif/python_env/idf5.5_py3.14_env/lib/python3.14/site-packages;/Users/md5/.espressif/python_env/idf5.5_py3.14_env/lib/python3.14/site-packages
+_Python3_INTERPRETER_PROPERTIES:INTERNAL=Python;3;14;7;32;64;<none>;;abi3;/opt/homebrew/opt/python@3.14/Frameworks/Python.framework/Versions/3.14/lib/python3.14;/Users/md5/.espressif/python_env/idf5.5_py3.14_env/lib/python3.14;/Users/md5/.espressif/python_env/idf5.5_py3.14_env/lib/python3.14/site-packages;/Users/md5/.espressif/python_env/idf5.5_py3.14_env/lib/python3.14/site-packages
 _Python3_INTERPRETER_SIGNATURE:INTERNAL=0905ec1b81900c55ccb78d415afeecdc
 //NumPy reason failure
 _Python3_NumPy_REASON_FAILURE:INTERNAL=

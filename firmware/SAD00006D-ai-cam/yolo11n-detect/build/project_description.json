@@ -1,7 +1,7 @@
 {
     "version":            "1.2",
     "project_name":       "yolo11_detect",
-    "project_version":    "749f44b-dirty",
+    "project_version":    "889ea35-dirty",
     "project_path":       "/Users/md5/Developer/reprogram-owned-devices/firmware/SAD00006D-ai-cam/yolo11n-detect",
     "idf_path":           "/Users/md5/esp/esp-idf",
     "build_dir":          "/Users/md5/Developer/reprogram-owned-devices/firmware/SAD00006D-ai-cam/yolo11n-detect/build",
